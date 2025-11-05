@@ -5,6 +5,22 @@ import fetch from "node-fetch";
 const app = express();
 app.use(bodyParser.json());
 
+app.get("/", (req, res) => {
+  res.send("✅ Jumps backend is running!");
+});
+
+let tokens = [];
+
+app.post("/register", express.json(), (req, res) => {
+  const { token } = req.body;
+  if (token && !tokens.includes(token)) {
+    tokens.push(token);
+    console.log("Registered token:", token);
+  }
+  res.json({ success: true });
+});
+
+
 // POST endpoint to send notifications
 app.post("/send", async (req, res) => {
   const { tokens, message } = req.body;
